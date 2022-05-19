@@ -1,0 +1,41 @@
+$TTL    604800
+@       IN      SOA     ocp-svc.lab.i3datacenter.my.id. contact.lab.i3datacenter.my.id (
+                  1     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800     ; Minimum
+)
+        IN      NS      ocp-svc
+
+ocp-svc.lab.i3datacenter.my.id.          IN      A       192.168.22.1
+
+; Temp Bootstrap Node
+bootstrap.lab.i3datacenter.my.id.        IN      A      192.168.22.40
+
+; Control Plane Nodes
+master01.lab.i3datacenter.my.id.         IN      A      192.168.22.41
+master02.lab.i3datacenter.my.id.         IN      A      192.168.22.42
+master03.lab.i3datacenter.my.id.         IN      A      192.168.22.43
+
+; Worker Nodes
+worker01.lab.i3datacenter.my.id.        IN      A      192.168.22.44
+worker02.lab.i3datacenter.my.id.        IN      A      192.168.22.45
+
+; OpenShift Internal - Load balancer
+api.lab.i3datacenter.my.id.        IN    A    192.168.22.1
+api-int.lab.i3datacenter.my.id.    IN    A    192.168.22.1
+*.apps.lab.i3datacenter.my.id.     IN    A    192.168.22.1
+
+; ETCD Cluster
+etcd-0.lab.i3datacenter.my.id.    IN    A     192.168.22.41
+etcd-1.lab.i3datacenter.my.id.    IN    A     192.168.22.42
+etcd-2.lab.i3datacenter.my.id.    IN    A     192.168.22.43
+
+; OpenShift Internal SRV records (cluster name = lab)
+_etcd-server-ssl._tcp.lab.i3datacenter.my.id.    86400     IN    SRV     0    10    2380    etcd-0.lab
+_etcd-server-ssl._tcp.lab.i3datacenter.my.id.    86400     IN    SRV     0    10    2380    etcd-1.lab
+_etcd-server-ssl._tcp.lab.i3datacenter.my.id.    86400     IN    SRV     0    10    2380    etcd-2.lab
+
+oauth-openshift.apps.lab.i3datacenter.my.id.     IN     A     192.168.22.1
+console-openshift-console.apps.lab.i3datacenter.my.id.     IN     A     192.168.22.1

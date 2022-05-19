@@ -1,0 +1,23 @@
+$TTL    604800
+@       IN      SOA     ocp-svc.lab.i3datacenter.my.id. contact.lab.i3datacenter.my.id (
+                  1     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800     ; Minimum
+)
+
+  IN      NS      ocp-svc.lab.i3datacenter.my.id.
+
+1      IN    PTR    ocp-svc.lab.i3datacenter.my.id.
+1      IN    PTR    api.lab.lab.i3datacenter.my.id.
+1      IN    PTR    api-int.lab.i3datacenter.my.id.
+;
+40    IN    PTR    bootstrap.lab.i3datacenter.my.id.
+;
+41    IN    PTR    master01.lab.i3datacenter.my.id.
+42    IN    PTR    master02.lab.i3datacenter.my.id.
+43    IN    PTR    master03.lab.i3datacenter.my.id.
+;
+44    IN    PTR    worker01.lab.i3datacenter.my.id.
+45    IN    PTR    worker02.lab.i3datacenter.my.id.
