@@ -56,3 +56,51 @@ You can monitor the bootstrap process from the ocp-svc host at different log lev
 ./openshift-install --dir ~/ocp-install wait-for bootstrap-complete --log-level=debug
 ```
 
+### 4. Remove Bootstrap Node
+
+Remove all references to the ocp-bootstrap host from the /etc/haproxy/haproxy.cfg file
+
+```bash
+# Two entries
+vim /etc/haproxy/haproxy.cfg
+# Restart HAProxy - If you are still watching HAProxy stats console you will see that the ocp-boostrap host has been removed from the backends.
+systemctl reload haproxy
+```
+
+The ocp-bootstrap host can now be safely shutdown and deleted from the VMware ESXi Console, the host is no longer required.
+
+### 5. Wait for installation to complete
+
+Collect the OpenShift Console address and kubeadmin credentials from the output of the install-complete event
+
+```bash
+./openshift-install --dir ~/ocp-install wait-for install-complete
+```
+
+### 6. Join Worker Nodes
+
+Setup 'oc' and 'kubectl' clients on the ocp-svc machine
+
+```bash
+export KUBECONFIG=~/ocp-install/auth/kubeconfig
+# Test auth by viewing cluster nodes
+oc get nodes
+```
+
+View and approve pending CSRs
+> Note: Once you approve the first set of CSRs additional 'kubelet-serving' CSRs will be created. These must be approved too. If you do not see pending requests wait until you do
+
+```bash
+# View CSRs
+oc get csr
+# Approve all pending CSRs
+oc get csr -o go-template='{{range .items}}{{if not .status}}{{.metadata.name}}{{"\n"}}{{end}}{{end}}' | xargs oc adm certificate approve
+# Wait for kubelet-serving CSRs and approve them too with the same command
+oc get csr -o go-template='{{range .items}}{{if not .status}}{{.metadata.name}}{{"\n"}}{{end}}{{end}}' | xargs oc adm certificate approve
+```
+
+Watch and wait for the Worker Nodes to join the cluster and enter a 'Ready' status
+
+```bash
+watch -n5 oc get nodes
+```
