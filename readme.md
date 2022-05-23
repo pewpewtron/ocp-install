@@ -4,7 +4,7 @@ This repo provides guide and template for network config to install OpenShift on
 
 ![network-diagram](docs/netdiag.png)
 
-Deployment this cluster requires 2 network one is use for internal ocp cluster and the other is used for external connection. both connection will be connected to Helper/SVC node. where it function 
+Deployment this cluster requires 2 network one is use for internal ocp cluster and the other is used for external connection. both connection will be connected to Helper/SVC node. where it function as networking service for the cluster. also helper contain NFS and web server where the installation file will be hosted.
 
 prerequisites
 
@@ -15,7 +15,10 @@ prerequisites
     * DHCP Server
     * HAProxy
 
-## Step for isntallation
+## How Installation works
+### Ignition file
+
+## Step for Installation
 
 [SVC/Helper setups](docs/svc-setups.md)
 
